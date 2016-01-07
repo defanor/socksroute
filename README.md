@@ -15,7 +15,7 @@ find such a program. But it works fine.
 ## Installation ##
 
 To build the program in a cabal sandbox and install a systemd service,
-`make install`. To uninstall it, `make uninstall`.
+`sudo make install`. To uninstall it, `sudo make uninstall`.
 
 
 ## Configuration ##
@@ -24,7 +24,7 @@ Configuration is currently getting done in the code, which is short;
 particularly in the `domainRules` function.
 
 By default, it listens on `127.0.0.1:1080`, and routes .onion and
-google resources (as well as a couple of others) through Tor socks
+google resources (as well as a couple of others) through Tor SOCKS
 with its default configuration (`localhost:9050`).
 
 Something like "Remote DNS" should be set in a client program if the

@@ -10,14 +10,15 @@ build: sandbox
 	cabal install
 
 install-files:
-	sudo cp .cabal-sandbox/bin/$(PROG) /usr/local/bin/
-	sudo cp $(PROG).service /usr/lib/systemd/system/
-	id -u $(PROG) || sudo useradd $(PROG)
-	sudo systemctl enable $(PROG)
-	sudo systemctl start $(PROG)
+	cp .cabal-sandbox/bin/$(PROG) /usr/local/bin/
+	cp $(PROG).service /usr/lib/systemd/system/
+	id -u $(PROG) || useradd $(PROG)
+	systemctl enable $(PROG)
+	systemctl start $(PROG)
 
 uninstall:
-	sudo systemctl disable $(PROG)
-	sudo rm -rf /usr/local/bin/$(PROG) /usr/lib/systemd/system/$(PROG).service
+	systemctl stop $(PROG)
+	systemctl disable $(PROG)
+	rm -rf /usr/local/bin/$(PROG) /usr/lib/systemd/system/$(PROG).service
 
 install: build install-files
