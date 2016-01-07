@@ -19,6 +19,6 @@ install-files:
 uninstall:
 	systemctl stop $(PROG)
 	systemctl disable $(PROG)
-	rm -rf /usr/local/bin/$(PROG) /usr/lib/systemd/system/$(PROG).service
+	rm -f /usr/local/bin/$(PROG) /usr/lib/systemd/system/$(PROG).service
 
 install: build install-files
