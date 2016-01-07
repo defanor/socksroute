@@ -1,0 +1,27 @@
+name:                socksroute
+version:             0.1.0.0
+-- synopsis:            
+-- description:         
+license:             MIT
+license-file:        LICENSE
+author:              defanor
+maintainer:          defanor@uberspace.net
+-- copyright:           
+category:            Network
+build-type:          Simple
+-- extra-source-files:  
+cabal-version:       >=1.10
+
+executable socksroute
+  ghc-options:         -threaded
+  main-is:             Main.hs
+  -- other-modules:       
+  other-extensions:    OverloadedStrings, DeriveDataTypeable, ViewPatterns, CPP
+  build-depends:       async >= 2.0.1.5
+                     , base >=4.7 && <5
+                     , bytestring >=0.10
+                     , network >=2.4
+                     , network-simple >= 0.4.0.4
+                     , socks >= 0.5.4
+  -- hs-source-dirs:      
+  default-language:    Haskell2010

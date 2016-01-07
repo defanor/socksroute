@@ -1,0 +1,11 @@
+[Unit]
+Description=SOCKS5 router
+After=syslog.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/socksroute
+User=socksroute
+
+[Install]
+WantedBy=multi-user.target
