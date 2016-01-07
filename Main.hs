@@ -21,6 +21,7 @@ domainRules (SocksAddrDomainName s)
   | BS.isSuffixOf ".onion" s = tor
   | BS.isSuffixOf "archive.org" s = tor
   | BS.isSuffixOf "trulyergonomic.com" s = tor
+  | BS.isSuffixOf "googlevideo.com" s = Plain
   | BS.isInfixOf "google" s = tor
   | otherwise = Plain
   where

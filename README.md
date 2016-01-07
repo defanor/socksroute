@@ -15,7 +15,7 @@ find such a program. But it works fine.
 ## Installation ##
 
 To build the program in a cabal sandbox and install a systemd service,
-`sudo make install`. To uninstall it, `sudo make uninstall`.
+`make install`. To uninstall it, `make uninstall`.
 
 
 ## Configuration ##
