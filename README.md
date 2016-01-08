@@ -8,7 +8,7 @@ browser or its settings, while accessing others directly.
 
 Currently there's not much of error reporting, exception handling, or
 even logging, and probably things like Privoxy can do what it does;
-this one is rather ad-hoc, written after me being unable to quickly
+this one is rather ad hoc, written after me being unable to quickly
 find such a program. But it works fine.
 
 
