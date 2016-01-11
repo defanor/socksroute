@@ -85,4 +85,4 @@ main = NST.serve (NST.Host "127.0.0.1") "1080" $ \(s, saddr) -> do
         -- quits.
         Left (e :: E.SomeException) -> stop
         Right "" -> stop
-        Right v' -> NSB.send t v' >> relay f t
+        Right v' -> NSB.sendAll t v' >> relay f t
