@@ -71,18 +71,18 @@ main = NST.serve (NST.Host "127.0.0.1") "1080" $ \(s, saddr) -> do
       -- Might be better to use `poll` here, not separate threads.
       c2s <- async $ relay f t
       s2c <- async $ relay t f
-      mapM_ wait [c2s, s2c]
+      (a, r) <- waitAnyCatchCancel [c2s, s2c]
+      case r of
+        Left e -> putStrLn $ "Exception: " ++ show e
+        Right v -> return ()
+      tc <- isConnected t
+      when tc $ close t
+      fc <- isConnected f
+      when fc $ close f
+
     relay :: Socket -> Socket -> IO ()
     relay f t = do
-      let stop = do
-            tc <- isConnected t
-            when tc $ close t
-            fc <- isConnected f
-            when fc $ close f
-      v <- E.try $ NSB.recv f 4096
+      v <- NSB.recv f 4096
       case v of
-        -- Closing both sockets on error, so the other thread also
-        -- quits.
-        Left (e :: E.SomeException) -> stop
-        Right "" -> stop
-        Right v' -> NSB.sendAll t v' >> relay f t
+        "" -> return ()
+        v' -> NSB.sendAll t v' >> relay f t
