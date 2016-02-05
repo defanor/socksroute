@@ -23,6 +23,8 @@ domainRules (SocksAddrDomainName s)
   | BS.isSuffixOf "trulyergonomic.com" s = tor
   | BS.isSuffixOf "googlevideo.com" s = Plain
   | BS.isInfixOf "google" s = tor
+  | BS.isSuffixOf "gstatic.com" s = tor
+  | BS.isSuffixOf "rutracker.org" s = tor
   | otherwise = Plain
   where
     tor = Socks $ defaultSocksConf "localhost" $ fromIntegral 9050
