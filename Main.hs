@@ -26,6 +26,7 @@ domainRules (SocksAddrDomainName s)
   | BS.isSuffixOf "gstatic.com" s = tor
   | BS.isSuffixOf "rutracker.org" s = tor
   | BS.isSuffixOf "thepiratebay.se" s = tor
+  | BS.isSuffixOf "wordpress.com" s = tor
   | otherwise = Plain
   where
     tor = Socks $ defaultSocksConf "localhost" $ fromIntegral 9050
