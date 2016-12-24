@@ -4,7 +4,10 @@ A basic SOCKS5 proxy, with basic routing rules.
 
 The primary purpose of this is to obtain access to some resources
 (such as archive.org and .onion resources) without switching a web
-browser or its settings, while accessing others directly.
+browser or its settings, while accessing others directly. Though just
+for .onion resources it may be more handy to
+set
+[transparent proxying](https://trac.torproject.org/projects/tor/wiki/doc/TransparentProxy#TransparentlyDoingDNSandRoutingfor.onionTraffic).
 
 Currently there's not much of error reporting, exception handling, or
 even logging, and probably things like Privoxy can do what it does;
