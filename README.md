@@ -21,7 +21,7 @@ splitting of TLS records on provided substrings is added. Yet again,
 there are other projects doing the same thing (see "Green Tunnel",
 "zapret"), but I have not found anything simple and otherwise
 satisfactory, being just a SOCKS5 server, without a GUI, and not doing
-much else.
+much else. Perhaps byedpi is close to that though.
 
 
 ## Running and installation ##

@@ -93,11 +93,14 @@ main = serveTCP $ \s saddr -> do
       close t
       close f
 
-    tryToBreak :: BS.ByteString -> BS.ByteString -> Maybe (BS.ByteString, BS.ByteString)
+    tryToBreak :: BS.ByteString -> BS.ByteString -> Maybe [BS.ByteString]
     tryToBreak whole sub = case BS.breakSubstring sub whole of
       (x, "") -> Nothing
-      (x, y') -> case BS.splitAt (BS.length sub `div` 2) y' of
-        (y1, y2) -> pure (BS.append x y1, y2)
+      (x, y') ->
+         -- pure $ [x] ++ map BS.singleton (BS.unpack sub)
+         --                   ++ [BS.drop (BS.length sub) y']
+        case BS.splitAt (BS.length sub `div` 2) y' of
+        (y1, y2) -> pure [BS.append x y1, y2]
 
     -- A very crude TLS record splitting
     tlsTryToBreak whole sub =
@@ -106,13 +109,12 @@ main = serveTCP $ \s saddr -> do
         [22, v1, v2, l1, l2] ->
           let len = fromIntegral l1 * 0x100 + fromIntegral l2
           in do
-            (b1, b2) <- tryToBreak s2 sub
-            let l1 = BS.length b1
-                l2 = BS.length b2
+            bs <- tryToBreak s2 sub
+            let ls = map BS.length bs
                 mkHeader l = BS.pack [22, v1, v2,
                                       fromIntegral (l `div` 0x100),
                                       fromIntegral (l `mod` 0x100)]
-            pure (BS.append (mkHeader l1) b1, BS.append (mkHeader l2) b2)
+            pure $ zipWith (\b l -> BS.append (mkHeader l) b) bs ls
         _ -> tryToBreak whole sub
 
     relay :: Socket -> Socket -> [BS.ByteString] -> IO ()
@@ -123,11 +125,11 @@ main = serveTCP $ \s saddr -> do
         v' -> do
           case foldl (<|>) Nothing (map (tlsTryToBreak v') splitStrings) of
             Nothing -> NSB.sendAll t v'
-            Just (v1, v2) ->
+            Just vs ->
               -- Might be useful to send those 200 ms or so apart, to
               -- avoid joining of the pockets. But the observed DPI
               -- does not seem to be confused by split TCP packets
               -- anyway, so depending more on the split TLS records
               -- here.
-              NSB.sendAll t v1 >> NSB.sendAll t v2
+              mapM_ (NSB.sendAll t) vs
           relay f t ss
